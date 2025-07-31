@@ -14,7 +14,8 @@ public class PersonService
 
     public async Task<List<Person>> GetPeopleAsync()
     {
-        var response = await _httpClient.GetFromJsonAsync<ApiResponse>("https://reqres.in/api/users");
+        // get your api key from https://reqres.in/signup
+        var response = await _httpClient.GetFromJsonAsync<ApiResponse>("https://reqres.in/api/users?api_key=[YOUR_API_KEY]");
         return response?.Data ?? new List<Person>();
     }
 
