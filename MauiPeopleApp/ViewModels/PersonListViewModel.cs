@@ -18,28 +18,20 @@ public class PersonListViewModel : BaseViewModel
     public PersonListViewModel()
     {
         _personService = new PersonService();
-        LoadPeopleCommand = new Command(async () => await LoadPeople());
+        LoadPeopleCommand = new Command(async () => await ExecuteLoadPeopleAsync());
     }
 
-    private async Task LoadPeople()
+    async Task ExecuteLoadPeopleAsync()
     {
         if (IsBusy) return;
         IsBusy = true;
-
         try
         {
             People.Clear();
             var people = await _personService.GetPeopleAsync();
-            foreach (var person in people)
-                People.Add(person);
+            foreach (var person in people) People.Add(person);
         }
-        catch (Exception ex)
-        {
-            Debug.WriteLine(ex);
-        }
-        finally
-        {
-            IsBusy = false;
-        }
+        catch (Exception ex) { Debug.WriteLine(ex); }
+        finally { IsBusy = false; }
     }
 }
